@@ -1,6 +1,3 @@
-
-
-
 namespace allspice.Repositories;
 
 public class RecipesRepository
@@ -54,5 +51,44 @@ public class RecipesRepository
         Recipe recipe = _db.Query<Recipe, Profile, Recipe>(sql, JoinCreatorToRecipe, new { recipeId }).FirstOrDefault();
         return recipe;
     }
-}
 
+    internal void UpdateRecipe(Recipe recipe)
+    {
+        string sql = @"
+        UPDATE recipes 
+        SET
+        title = @Title,
+        instructions = @Instructions
+    
+        WHERE id = @Id LIMIT 1;";
+
+        int affectedRows = _db.Execute(sql, recipe);
+
+        if (affectedRows == 0)
+        {
+            throw new Exception("No recipes were updated");
+        }
+        if (affectedRows > 1)
+        {
+            throw new Exception("all recipes were updated");
+        }
+    }
+
+    internal void DeleteRecipe(int recipeId)
+    {
+        string sql = @"
+        DELETE FROM recipes     
+        WHERE id = @recipeId LIMIT 1;";
+
+        int affectedRows = _db.Execute(sql, new { recipeId });
+
+        if (affectedRows == 0)
+        {
+            throw new Exception("No recipes were delete");
+        }
+        if (affectedRows > 1)
+        {
+            throw new Exception("all recipes were delete");
+        }
+    }
+}
