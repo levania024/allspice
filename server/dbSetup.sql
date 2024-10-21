@@ -44,15 +44,3 @@ CREATE Table favorites (
     FOREIGN KEY (recipeId) REFERENCES recipes (id) ON DELETE CASCADE,
     FOREIGN KEY (accountId) REFERENCES accounts (id) ON DELETE CASCADE
 );
-
-
-DROP TABLE ingredients
-
-INSERT INTO
-    ingredients (name, quantity, recipeId)
-VALUES ('burger', 3, 26);
-
-SELECT ingredients.*
-FROM ingredients
-WHERE
-    ingredients.id = LAST_INSERT_ID();

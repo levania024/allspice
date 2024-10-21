@@ -15,12 +15,13 @@ public class FavoritesController : ControllerBase
 
     [Authorize]
     [HttpPost]
-    public async Task<ActionResult<Ingredient>> CreateFavorite([FromBody] Favorite favoriteData)
+    public async Task<ActionResult<FavoriteRecipe>> CreateFavorite([FromBody] Favorite favoriteData)
     {
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            Favorite favorite = _favoritesService.CreateFavorite(favoriteData);
+            favoriteData.AccountId = userInfo.Id;
+            FavoriteRecipe favorite = _favoritesService.CreateFavorite(favoriteData);
             return Ok(favorite);
         }
         catch (Exception error)
@@ -29,5 +30,19 @@ public class FavoritesController : ControllerBase
         }
     }
 
-
+    [Authorize]
+    [HttpDelete("{favoriteFavoriteId}")]
+    public async Task<ActionResult<Favorite>> DeleteFavorite(int favoriteFavoriteId)
+    {
+        try
+        {
+            Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
+            _favoritesService.DeleteFavorite(favoriteFavoriteId,userInfo.Id);
+            return Ok("Saved favorite recipe is deleted");
+        }
+        catch (Exception error)
+        {
+            return BadRequest(error.Message);
+        }
+    }
 }

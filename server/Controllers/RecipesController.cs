@@ -39,7 +39,6 @@ public class RecipesController : ControllerBase
         {
             List<Recipe> recipes = _recipesService.GetRecipe();
             return Ok(recipes);
-
         }
         catch (Exception error)
         {
@@ -95,7 +94,6 @@ public class RecipesController : ControllerBase
     }
 
     [HttpGet("{recipeId}/ingredients")]
-
     public ActionResult<List<Ingredient>> GetAllIngredientByRecipeId(int recipeId)
     {
         try

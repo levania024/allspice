@@ -19,13 +19,12 @@ public class RecipesService
     {
         Recipe recipe = _recipesRepository.GetRecipeById(recipeId);
 
-        if (recipe.CreatorId != userId)
-        {
+        if(recipe.CreatorId != userId){
             throw new Exception("Can not delete, not the owner");
         }
-
+    
         _recipesRepository.DeleteRecipe(recipeId);
-
+       
     }
 
     internal List<Recipe> GetRecipe()

@@ -20,7 +20,8 @@ public class IngredientsController : ControllerBase
         try
         {
             Account userInfo = await _auth0Provider.GetUserInfoAsync<Account>(HttpContext);
-            Ingredient ingredient = _ingredientsService.CreateIngredients(ingredientData);
+            
+            Ingredient ingredient = _ingredientsService.CreateIngredients(ingredientData,userInfo.Id);
             return Ok(ingredient);
         }
         catch (Exception error)
@@ -44,6 +45,4 @@ public class IngredientsController : ControllerBase
             return BadRequest(error.Message);
         }
     }
-
-
 }

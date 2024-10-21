@@ -3,15 +3,24 @@ namespace allspice.Services;
 public class IngredientsService
 {
     private readonly IngredientsRepository _ingredientsRepository;
+    private readonly RecipesService _recipesService;
 
-    public IngredientsService(IngredientsRepository ingredientsRepository)
+    public IngredientsService(IngredientsRepository ingredientsRepository, RecipesService recipesService)
     {
         _ingredientsRepository = ingredientsRepository;
+        _recipesService = recipesService;
     }
 
-    internal Ingredient CreateIngredients(Ingredient ingredientData)
+    internal Ingredient CreateIngredients(Ingredient ingredientData, string userId)
     {
+        Recipe recipe = _recipesService.GetRecipeById(ingredientData.RecipeId);
+        if (userId != recipe.CreatorId)
+        {
+            throw new Exception($"invalid ingredient id: {recipe.Id}");
+        }
+
         Ingredient ingredient = _ingredientsRepository.CreateIngredients(ingredientData);
+
         return ingredient;
     }
 
@@ -31,9 +40,19 @@ public class IngredientsService
         return ingredient;
     }
 
-    internal void DeleteIngredient(int ingredientId, string id)
+    internal void DeleteIngredient(int ingredientId, string userId)
     {
-        GetIngredientById(ingredientId);
+        Ingredient ingredient = GetIngredientById(ingredientId);
+        Recipe recipe = _recipesService.GetRecipeById(ingredient.RecipeId);
+        if (ingredient.RecipeId == ingredient.Id)
+        {
+            throw new Exception();
+        }
+
+        if (recipe.CreatorId != userId)
+        {
+            throw new Exception();
+        }
         _ingredientsRepository.DeleteIngredient(ingredientId);
     }
 }
