@@ -1,7 +1,4 @@
 <script setup>
-import Navbar from './components/Navbar.vue';
-import { AppState } from './AppState.js';
-
 </script>
 
 <template>

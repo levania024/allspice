@@ -2,9 +2,7 @@
 import { Recipe } from '@/models/Recipe.js';
 
 defineProps({ recipeProp: { type: Recipe, require: true } })
-
 </script>
-
 
 <template>
     <div class="position-relative m-3">
@@ -14,10 +12,9 @@ defineProps({ recipeProp: { type: Recipe, require: true } })
             <p>{{ recipeProp.instructions }}</p>
         </div>
         <p class="recipe-category m-3 rounded-4 text-light">{{ recipeProp.category }}</p>
-            <i class="mdi mdi-heart-outline icon mx-2 rounded"></i>
+        <i class="mdi mdi-heart-outline icon mx-2 rounded"></i>
     </div>
 </template>
-
 
 <style lang="scss" scoped>
 .recipe-img {
@@ -40,7 +37,7 @@ defineProps({ recipeProp: { type: Recipe, require: true } })
     font-size: 1.2rem;
     position: absolute;
     text-align: center;
-    width: 10dvh;
+    min-width: 10dvh;
     top: 0;
     box-shadow: 1px 1px 2px;
 }
@@ -52,8 +49,8 @@ defineProps({ recipeProp: { type: Recipe, require: true } })
     top: 0;
     right: 0;
     text-align: center;
-    height: 4dvh;
-    width: 4dvh;
+    min-height: 4dvh;
+    min-width: 4dvh;
     box-shadow: 1px 1px 2px;
 }
 </style>
